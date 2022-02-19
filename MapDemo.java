@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Objects;
@@ -54,6 +55,21 @@ public class MapDemo {
 
         //反向映射操作
         //resultMap 以 mapA 中 value 列表中的字符串为 key，mapA 中原来的 key 为 value
+        ArrayList<String> valueList = new ArrayList<>();
+        for (ArrayList<String> values : mapA.values()) {
+            valueList.addAll(values);
+        }
+        /*HashSet<String> set = new HashSet<>(valueList);
+        valueList.clear();
+        valueList.addAll(set);*/
+        Collections.sort(valueList);
+        for (String str : valueList) {
+            if (!resultMap.containsKey(str)){
+                ArrayList<String> list = new ArrayList<>();
+                resultMap.put(str, list);
+            }
+        }
+
         for (String key : mapA.keySet()) {
             for (String value : Objects.requireNonNull(mapA.get(key))) {
                 if (resultMap.containsKey(value)){
@@ -70,9 +86,9 @@ public class MapDemo {
         for (String key : resultMap.keySet()) {
             ArrayList<String> list = resultMap.get(key);
             if (list == null) continue;
-            HashSet<String> set = new HashSet<>(list);
+            HashSet<String> setValues = new HashSet<>(list);
             list.clear();
-            list.addAll(set);
+            list.addAll(setValues);
         }
         return resultMap;
     }
